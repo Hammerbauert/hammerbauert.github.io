@@ -7,10 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Tomáš Hammerbauer</h1>
-        <p class="subtitle">PhD student</p>
-    </header>
+    <!-- Shared header placeholder -->
+    <div id="header-container"></div>
+    <script>
+      (function() {
+        fetch('header.html')
+          .then(function(r){ return r.text(); })
+          .then(function(html){ document.getElementById('header-container').innerHTML = html; })
+          .catch(function(){ /* ignore load errors */ });
+      })();
+    </script>
     
     <nav>
         <ul>
@@ -28,27 +34,28 @@
                 <h3>Current Courses</h3>
                 <div class="course">
                     <h4>Úvod do metody konečných prvků</h4>
-                    <p><strong>Term:</strong> letní semestr 2026</p>
+                    <p><strong>Semestr:</strong> letní semestr 2026</p>
                     <!-- <p><strong>Level:</strong> Bakalářský</p> -->
                     <p>
                         Základy metody konečných prvků. Doporučený povinně volitelný předmět pro bakalářský obor Obecná matematika, zaměření Matematické modelování a numerická analýza.
                     </p>
-                    <h5>cvičení:</h5>
-                    <ul class="exercise-list"></ul>
-                        <li><a href="files/cviceni/cviceni-01-uvod.pdf" download>Cvičení 1: Úvod a základní pojmy (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-02-linearni-prvky.pdf" download>Cvičení 2: Lineární prvky (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-03-funkce-tvaru.pdf" download>Cvičení 3: Funkce tvaru (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-04-sestaveni-matice.pdf" download>Cvičení 4: Sestavení tuhostní matice (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-05-okrajove-podminky.pdf" download>Cvičení 5: Okrajové podmínky (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-06-integrace-a-kvadratura.pdf" download>Cvičení 6: Numerická integrace a kvadratura (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-07-2d-prvky.pdf" download>Cvičení 7: 2D prvky (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-08-konvergence-a-chyba.pdf" download>Cvičení 8: Konvergence a odhad chyby (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-09-nelinearni-ulohy.pdf" download>Cvičení 9: Nelineární úlohy (PDF)</a></li>
-                        <li><a href="files/cviceni/cviceni-10-implementace.pdf" download>Cvičení 10: Implementace MKP (PDF)</a></li>
-                    </ul>
-                    <h5>Podmínky zápočtu:</h5>
-
                 </div>
+                <h4>cvičení:</h4>
+                <ul class="exercise-list"></ul>
+                    <li><a href="files/cviceni/cviceni-01-uvod.pdf" download>Cvičení 1: Úvod a základní pojmy (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-02-linearni-prvky.pdf" download>Cvičení 2: Lineární prvky (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-03-funkce-tvaru.pdf" download>Cvičení 3: Funkce tvaru (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-04-sestaveni-matice.pdf" download>Cvičení 4: Sestavení tuhostní matice (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-05-okrajove-podminky.pdf" download>Cvičení 5: Okrajové podmínky (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-06-integrace-a-kvadratura.pdf" download>Cvičení 6: Numerická integrace a kvadratura (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-07-2d-prvky.pdf" download>Cvičení 7: 2D prvky (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-08-konvergence-a-chyba.pdf" download>Cvičení 8: Konvergence a odhad chyby (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-09-nelinearni-ulohy.pdf" download>Cvičení 9: Nelineární úlohy (PDF)</a></li>
+                    <li><a href="files/cviceni/cviceni-10-implementace.pdf" download>Cvičení 10: Implementace MKP (PDF)</a></li>
+                </ul>
+                <h4>Podmínky zápočtu:</h4>
+
+
                 <!--
                 <div class="course">
                     <h4>Advanced Course 401</h4>

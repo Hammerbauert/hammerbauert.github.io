@@ -7,11 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Tomas Hammerbauer</h1>
-        <p class="subtitle">Researcher</p>
-    </header>
-    
+    <!-- Shared header placeholder -->
+    <div id="header-container"></div>
+    <script>
+      (function() {
+        fetch('header.html')
+          .then(function(r){ return r.text(); })
+          .then(function(html){ document.getElementById('header-container').innerHTML = html; })
+          .catch(function(){ /* ignore load errors */ });
+      })();
+    </script>
     <nav>
         <ul>
             <li><a href="index.html">About</a></li>

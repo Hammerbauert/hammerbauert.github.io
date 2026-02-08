@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomáš Hammerbauer</title>
+    <title>Teaching - Tomáš Hammerbauer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,63 +31,50 @@
         <section id="teaching">
             <h2>Teaching</h2>
             <div class="content">
+                
                 <h3>Current Courses</h3>
-                <div class="course">
-                    <h4>Úvod do metody konečných prvků</h4>
-                    <p><strong>Semestr:</strong> letní semestr 2026</p>
-                    <!-- <p><strong>Level:</strong> Bakalářský</p> -->
-                    <p>
+                
+                <div class="course-card">
+                    <div class="course-header">
+                        <h4>Úvod do metody konečných prvků</h4>
+                        <span class="semester-badge">Letní semestr 2026</span>
+                    </div>
+                    <p class="course-description">
                         Základy metody konečných prvků. Doporučený povinně volitelný předmět pro bakalářský obor Obecná matematika, zaměření Matematické modelování a numerická analýza.
                     </p>
-                </div>
-                <h4>cvičení:</h4>
-                <ul class="exercise-list"></ul>
-                    <li><a href="files/cviceni/cviceni-01-uvod.pdf" download>Cvičení 1: Úvod a základní pojmy (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-02-linearni-prvky.pdf" download>Cvičení 2: Lineární prvky (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-03-funkce-tvaru.pdf" download>Cvičení 3: Funkce tvaru (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-04-sestaveni-matice.pdf" download>Cvičení 4: Sestavení tuhostní matice (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-05-okrajove-podminky.pdf" download>Cvičení 5: Okrajové podmínky (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-06-integrace-a-kvadratura.pdf" download>Cvičení 6: Numerická integrace a kvadratura (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-07-2d-prvky.pdf" download>Cvičení 7: 2D prvky (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-08-konvergence-a-chyba.pdf" download>Cvičení 8: Konvergence a odhad chyby (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-09-nelinearni-ulohy.pdf" download>Cvičení 9: Nelineární úlohy (PDF)</a></li>
-                    <li><a href="files/cviceni/cviceni-10-implementace.pdf" download>Cvičení 10: Implementace MKP (PDF)</a></li>
-                </ul>
-                <h4>Podmínky zápočtu:</h4>
-
-
-                <!--
-                <div class="course">
-                    <h4>Advanced Course 401</h4>
-                    <p><strong>Term:</strong> Spring 2026</p>
-                    <p><strong>Level:</strong> Graduate</p>
-                    <p>
-                        Description of the advanced course, focusing on specialized topics 
-                        and research methods in the field.
-                    </p>
-                </div>
-                
-                <h3>Past Courses</h3>
-                <div class="course">
-                    <h4>Introduction to Research Methods</h4>
-                    <p><strong>Terms:</strong> Fall 2025, Spring 2025</p>
-                    <p><strong>Level:</strong> Undergraduate</p>
-                    <p>
-                        Foundational course covering research methodologies, data analysis, 
-                        and academic writing.
-                    </p>
+                    
+                    <div class="course-section">
+                        <h5>Materiály ke cvičení</h5>
+                        <ul class="exercise-list">
+                            <li><a href="files/cviceni/cviceni-01-uvod.pdf" download>Cvičení 1: Úvod a základní pojmy</a></li>
+                            <li><a href="files/cviceni/cviceni-02-linearni-prvky.pdf" download>Cvičení 2: Lineární prvky</a></li>
+                            <li><a href="files/cviceni/cviceni-03-funkce-tvaru.pdf" download>Cvičení 3: Funkce tvaru</a></li>
+                            <li><a href="files/cviceni/cviceni-04-sestaveni-matice.pdf" download>Cvičení 4: Sestavení tuhostní matice</a></li>
+                            <li><a href="files/cviceni/cviceni-05-okrajove-podminky.pdf" download>Cvičení 5: Okrajové podmínky</a></li>
+                            <li><a href="files/cviceni/cviceni-06-integrace-a-kvadratura.pdf" download>Cvičení 6: Numerická integrace a kvadratura</a></li>
+                            <li><a href="files/cviceni/cviceni-07-2d-prvky.pdf" download>Cvičení 7: 2D prvky</a></li>
+                            <li><a href="files/cviceni/cviceni-08-konvergence-a-chyba.pdf" download>Cvičení 8: Konvergence a odhad chyby</a></li>
+                            <li><a href="files/cviceni/cviceni-09-nelinearni-ulohy.pdf" download>Cvičení 9: Nelineární úlohy</a></li>
+                            <li><a href="files/cviceni/cviceni-10-implementace.pdf" download>Cvičení 10: Implementace MKP</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="course-section">
+                        <h5>Podmínky zápočtu</h5>
+                        <div class="requirements-box">
+                            <ul>
+                                <li><strong>Domácí úkoly:</strong> minimálně 60 % bodů</li>
+                                <li><strong>Účast:</strong> minimálně 50 % cvičení</li>
+                            </ul>
+                            <p>
+                                Domácí úkoly budou zadávány průběžně a zahrnují praktické implementační úlohy. 
+                                Způsob implementace je na studentovi (Python, MATLAB, C++, apod.). 
+                                Odevzdání emailem na adresu cvičícího.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="course">
-                    <h4>Seminar in Advanced Topics</h4>
-                    <p><strong>Terms:</strong> Fall 2024, Fall 2025</p>
-                    <p><strong>Level:</strong> Graduate</p>
-                    <p>
-                        Graduate seminar exploring current research topics and debates 
-                        in the field.
-                    </p>
-                </div>
-                -->                 
                 <h3>Teaching Philosophy</h3>
                 <p>
                     I believe in fostering an engaging and inclusive learning environment where 
@@ -100,7 +87,7 @@
     </main>
     
     <footer>
-        <p>&copy; 2026 Tomas Hammerbauer. All rights reserved.</p>
+        <p>&copy; 2026 Tomáš Hammerbauer. All rights reserved.</p>
     </footer>
 </body>
 </html>

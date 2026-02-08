@@ -342,7 +342,7 @@ section h4 {
 .button {
     display: inline-block;
     background: var(--accent);
-    color: var(--button-text);
+    color: var(--white);
     padding: 0.75rem 2rem;
     text-decoration: none;
     border-radius: 8px;
@@ -439,8 +439,8 @@ footer {
     }
     
     .site-header .brand-logo {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
     }
     
     .site-header .brand-text h1 {

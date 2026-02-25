@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Fortune: Student Selection</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .wheel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wheel {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            right: -30px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 40px solid #e74c3c;
+            z-index: 10;
+            filter: drop-shadow(-3px 0 3px rgba(0,0,0,0.3));
+        }
+        
+        .wheel-center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .spin-btn {
+            background: linear-gradient(145deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+        }
+        
+        .spin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.5);
+        }
+        
+        .spin-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            min-height: 3rem;
+            text-align: center;
+        }
+        
+        .result.winner {
+            animation: pulse 0.5s ease-in-out 3;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .student-input {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .student-input textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        
+        .student-input textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .student-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .student-count {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 500px) {
+            .wheel {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Shared header placeholder -->
+    
+    <main>
+        <section>
+            <h2>Wheel of Fortune</h2>
+            <div class="content">
+                <div class="wheel-container">
+                    <div class="student-input">
+                        <label for="students">List of students (one per line):</label>
+                        <textarea id="students" placeholder="Jan Novák&#10;Marie Svobodová&#10;Petr Dvořák&#10;...">Student 1
+Student 2
+Student 3
+Student 4
+Student 5
+Student 6</textarea>
+                        <p class="student-count">Number of students: <span id="count">6</span></p>
+                    </div>
+                    
+                    <div class="wheel-wrapper">
+                        <canvas id="wheel" class="wheel" width="400" height="400"></canvas>
+                        <div class="wheel-center"></div>
+                        <div class="wheel-pointer"></div>
+                    </div>
+                    
+                    <button class="spin-btn" id="spinBtn">🎰 Spin!</button>
+                    
+                    <div class="result" id="result"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 Tomáš Hammerbauer. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const resultDiv = document.getElementById('result');
+        const studentsTextarea = document.getElementById('students');
+        const countSpan = document.getElementById('count');
+        
+        let currentRotation = 0;
+        let isSpinning = false;
+        
+        const colors = [
+            '#3498db', '#e74c3c', '#2ecc71', '#f39c12', 
+            '#9b59b6', '#1abc9c', '#e67e22', '#34495e',
+            '#16a085', '#c0392b', '#27ae60', '#8e44ad',
+            '#2980b9', '#d35400', '#7f8c8d', '#f1c40f'
+        ];
+        
+        function getStudents() {
+            return studentsTextarea.value
+                .split('\n')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+        }
+        
+        function drawWheel() {
+            const students = getStudents();
+            const numSegments = students.length;
+            
+            if (numSegments === 0) return;
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 5;
+            const anglePerSegment = (2 * Math.PI) / numSegments;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(currentRotation);
+            ctx.translate(-centerX, -centerY);
+            
+            for (let i = 0; i < numSegments; i++) {
+                const startAngle = i * anglePerSegment;
+                const endAngle = startAngle + anglePerSegment;
+                
+                // Draw segment
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + anglePerSegment / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px Inter, sans-serif';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 3;
+                
+                const text = students[i];
+                const maxLen = 15;
+                const displayText = text.length > maxLen ? text.substring(0, maxLen) + '...' : text;
+                ctx.fillText(displayText, radius - 15, 5);
+                ctx.restore();
+            }
+            
+            ctx.restore();
+        }
+        
+        function spin() {
+            if (isSpinning) return;
+            
+            const students = getStudents();
+            if (students.length < 2) {
+                resultDiv.textContent = 'Přidejte alespoň 2 studenty!';
+                return;
+            }
+            
+            isSpinning = true;
+            spinBtn.disabled = true;
+            resultDiv.textContent = '';
+            resultDiv.classList.remove('winner');
+            
+            const numSegments = students.length;
+            const anglePerSegment = (2 * Math.PI) / numSegments;
+            
+            // Random number of full rotations (5-10) plus random segment
+            const fullRotations = 5 + Math.random() * 5;
+            const randomSegment = Math.floor(Math.random() * numSegments);
+            const targetAngle = fullRotations * 2 * Math.PI + (2 * Math.PI - randomSegment * anglePerSegment - anglePerSegment / 2);
+            
+            const startRotation = currentRotation;
+            const totalRotation = targetAngle;
+            const duration = 4000;
+            const startTime = performance.now();
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function (ease-out cubic)
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                
+                currentRotation = startRotation + totalRotation * easeOut;
+                drawWheel();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isSpinning = false;
+                    spinBtn.disabled = false;
+                    
+                    // Calculate winner
+                    const normalizedRotation = currentRotation % (2 * Math.PI);
+                    const pointerAngle = 0; // Pointer is at the right (0 radians)
+                    const adjustedAngle = (2 * Math.PI - normalizedRotation + pointerAngle) % (2 * Math.PI);
+                    const winnerIndex = Math.floor(adjustedAngle / anglePerSegment) % numSegments;
+                    
+                    resultDiv.textContent = '🎉 ' + students[winnerIndex] + ' 🎉';
+                    resultDiv.classList.add('winner');
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Event listeners
+        spinBtn.addEventListener('click', spin);
+        
+        studentsTextarea.addEventListener('input', () => {
+            const students = getStudents();
+            countSpan.textContent = students.length;
+            drawWheel();
+        });
+        
+        // Initial draw
+        drawWheel();
+    </script>
+</body>
+</html>
